@@ -1088,4 +1088,4 @@ btn_save_as = tk.Button(
 
 关于 python 输出独立可执行应用的介绍，其实和用什么 GUI 框架无关，所以可参考一下我的另一篇文章《Python：界面开发，wx入门篇》里的相关介绍。
 
-*如需要完整示例代码，可前往 github 仓库获取：* // TODO.
+*如需要完整示例代码，可前往 github 仓库获取：* git@github.com:ifi-leung/python_gui_tkinter.git
