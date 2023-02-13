@@ -418,7 +418,9 @@ listvar.set(contents)
 window.mainloop()
 ```
 
-实例化控件 Listbox 时，也使用了一个方便快速操作内部数据的参数 listvariable，类似其它控件的 textvariable 参数，但是由于列表控件内部管理的是文本列表，所以 listvariable 接收的量必须是列表类型[]。先是直接创建一个列表量，然后传入 StringVar() 转换成特殊格式返回，返回值 listvar 再赋给控件 Listbox 实例化的参数 listvariable。在后边需要更新或读取列表控件内容时，直接调用 listvar.set() 或 listvar.get() 即可。
+实例化控件 Listbox 时，也使用了一个方便快速操作内部数据的参数 listvariable，类似其它控件的 textvariable 参数，但是由于列表控件内部管理的是文本列表，所以 listvariable 接收的量必须是列表类型[]。先是直接创建一个列表量，然后传入 StringVar() 转换成特殊格式返回，返回值 listvar 再赋给控件 Listbox 实例化的参数 listvariable。
+
+在后边需要更新或读取列表控件内容时，直接调用 listvar.set() 或 listvar.get() 即可。
 
 控件 Listbox 其实是有自带的接口可以操作内部数据的，但是相对于初始化 listvariable 参数来说太硬核了，不够灵活，所以不展开了。
 
@@ -432,7 +434,7 @@ Tkinter 框架提供了一部分支持切换主题外观的控件，这些控件
 
 另外基本控件和主题控件的 API 基本类似，只有少量差异，所以可以轻松切换使用。
 
-## 基本控件快速切换到主题控件
+## 快速切换到主题控件
 
 如果遗留代码里使用的是基本控件，为了能使用主题控件来快速覆盖，在导入库时可以参考使用通配符 import （*），这样就不需要大范围修改代码了。
 
@@ -835,6 +837,8 @@ window.mainloop()
 
 前面说了这么多，用句流行语来概括就是 「散装知识点」。为了串联起来有个全面的体会，下面让我们一起来实现一个简单的记事本程序吧！
 
+## 产品定义
+
 作为一个产品的开发来看的话，我们需要清楚地知道自己到底想要的产品是长什么样子，然后才是实现的过程。
 
 我们打算做一个基本的记事本，它可以点击按键打开 TXT 格式的文本文件，把文件内容读取出来显示在编辑区，然后在编辑区修改了文件内容后，又可以点击其它按键把编辑区的内容另存为其它文本文件。
@@ -868,7 +872,11 @@ window.mainloop()
 
 从草图来看，它还需要功能按钮区域和文本编辑区，可以使用 grid 布局管理器来划分区域。总体可以划分为 1 行 2 列，第 1 列是功能按钮区域，第 2 列是文本编辑区；第 1 行第 1 列也就是功能按钮区域，又可以划分为 2 行 1 列，第 1 行是按钮打开，第 2 行是按钮另存。
 
-对界面布局做好划分之后，就开始添加控件了
+好了，这就是我们这个产品的初步定义。
+
+## UI实现
+
+对界面布局做好划分之后，就开始添加控件代码了
 
 ```
 import tkinter as tk
@@ -909,7 +917,7 @@ window.mainloop()
 
 而按钮太靠边，可以通过修改填充属性 padding，比如 padx=5, pady=5 让控件的边框收缩 5 个像素，保持距离感。
 
-而控件没有跟随窗体一起拉伸，是因为控件 txt_edit 还需要设置所有边框靠着边界，比如 sticky 设为 "nsew" 即可。
+而编辑框控件没有跟随窗体一起拉伸，是因为控件 txt_edit 还需要设置所有边框靠着边界，比如 sticky 设为 "nsew" 即可。
 
 看看修改后的代码
 
@@ -976,7 +984,11 @@ window.mainloop()
 
 ![](./img/29.jpg)
 
-OK ! UI 界面视觉效果达到预期了。下一步就是补充逻辑功能，让记事本能读写文本文件。
+OK ! UI 界面视觉效果达到预期了。
+
+## 逻辑功能
+
+下一步就是补充逻辑功能，让记事本能读写文本文件。
 
 先看怎么实现打开逻辑。
 
@@ -1051,7 +1063,8 @@ def save_as_file():
         file_path,
         mode="w",
         encoding="utf-8") as output_file:
-        output_file.write(txt_edit.get("1.0", tk.END))
+        output_file.write(txt_edit.get("1.0",
+                                        tk.END))
     window.title(f"{file_path} - 记事本")
 
 ...
@@ -1081,7 +1094,7 @@ btn_save_as = tk.Button(
 
 # 打包部署
 
-关于 python 输出独立可执行应用的介绍，其实和用什么 GUI 框架无关，所以可参考一下我的另一篇文章《Python：界面开发，wx入门篇》里的相关介绍。
+关于 python 输出独立可执行应用的介绍，其实和用什么 GUI 框架无关，可直接参考一下我的另一篇文章《[Python：界面开发，wx入门篇](https://mp.weixin.qq.com/s?__biz=MzUxMTgxMzExNQ==&mid=2247484231&idx=1&sn=85d204c09a00a13398b743025d073b57&chksm=f96cb7d3ce1b3ec5043feb70e981ff8a74cfb4b70f69c0f2883026fa74d25c8787fc1f3c11bc&scene=21#wechat_redirect)》里的相关介绍。
 
 ---
 
